@@ -11,6 +11,7 @@ Basic usage of the module is very simple:
 
 from collections import defaultdict, namedtuple
 from itertools import imap
+import pandas as pd
 
 __author__ = 'Eric Naeseth <eric@naeseth.com>'
 __copyright__ = 'Copyright © 2009 Eric Naeseth'
@@ -354,5 +355,14 @@ if __name__ == '__main__':
         result.append((itemset,support))
 
     result = sorted(result, key=lambda i: i[0])
+    # print(result)
+    item = []
+    s = []
     for itemset, support in result:
-        print str(itemset) + ' ' + str(support)
+        item.append(','.join(itemset))
+        s.append(support)
+        print str(itemset).decode('string_escape') + ' ' + str(support)
+
+    # print str(item).decode('string_escape')
+    output = pd.DataFrame({'item': item, 'support': s})
+    output.to_csv('output_fp_growth.csv',encoding='gbk')
